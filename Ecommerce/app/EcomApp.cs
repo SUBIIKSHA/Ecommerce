@@ -19,10 +19,11 @@ namespace app
                 Console.WriteLine("1. Register Customer");
                 Console.WriteLine("2. Create Product");
                 Console.WriteLine("3. Delete Product");
-                Console.WriteLine("4. Add to Cart");
-                Console.WriteLine("5. View Cart");
-                Console.WriteLine("6. Place Order");
-                Console.WriteLine("7. View Customer Order");
+                Console.WriteLine("4. Delete Customer");
+                Console.WriteLine("5. Add to Cart");
+                Console.WriteLine("6. View Cart");
+                Console.WriteLine("7. Place Order");
+                Console.WriteLine("8. View Customer Order");
                 Console.WriteLine("0. Exit");
                 Console.Write("Enter your choice: ");
 
@@ -58,8 +59,14 @@ namespace app
                         int productId = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine(repo.DeleteProduct(productId)? "Product deleted successfully!": "Product not found.");
                         break;
-
+                    
                     case 4:
+                        Console.Write("Enter Customer ID to delete: ");
+                        int delCustId = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine(repo.DeleteCustomer(delCustId)? "Customer deleted successfully.": "Failed to delete customer.");
+                        break;
+
+                    case 5:
                         Console.Write("Enter Customer ID: ");
                         int custId = Convert.ToInt32(Console.ReadLine());
                         Console.Write("Enter Product ID: ");
@@ -73,7 +80,7 @@ namespace app
                             Console.WriteLine("Failed to add.");
                         break;
 
-                    case 5:
+                    case 6:
                         Console.Write("Enter Customer ID: ");
                         int cartCustId = Convert.ToInt32(Console.ReadLine());
                         List<Products> cartItems = repo.GetAllFromCart(new Customers(cartCustId, "", "", ""));
@@ -84,7 +91,7 @@ namespace app
                         }
                         break;
 
-                    case 6:
+                    case 7:
                         Console.Write("Enter Customer ID: ");
                         int ordCustId = Convert.ToInt32(Console.ReadLine());
                         Console.Write("Enter Shipping Address: ");
@@ -101,11 +108,11 @@ namespace app
                         Console.WriteLine(repo.PlaceOrder(customers, orderList, address)? "Order placed successfully!": "Failed to place order.");
                         break;
 
-                    case 7:
+                    case 8:
                         Console.Write("Enter Customer ID: ");
                         int viewCustId = Convert.ToInt32(Console.ReadLine());
                         var orders = repo.GetOrdersByCustomer(viewCustId);
-                        Console.WriteLine("Customer Orders:");
+                   
                         foreach (var order in orders)
                         {
                             Console.WriteLine($"{order.Key.GetProductName} - Qty: {order.Value} - Rs.{order.Key.GetPrice}");
